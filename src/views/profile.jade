@@ -1,0 +1,12 @@
+doctype html
+html(lang='en')
+	head
+		meta(charset='UTF-8')
+		title MY APP
+	body
+		h1 Hello #{input}
+		form(action='/makepost', method='POST')
+			input(type='text', placeholder='Type your post here...', name='post')
+			button(type='submit') Submit
+		br
+		a(href="http://localhost:3000/") HOME
