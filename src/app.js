@@ -38,12 +38,23 @@ var user = sequelize.define('user', {
 	password: Sequelize.STRING
 });
 
+var post = sequelize.define('post', {
+	blogpost: Sequelize.STRING
+});
+
+user.hasMany(post);
+post.belongsTo(user);
+
+sequelize.sync().then(()=>{
+	console.log('sync completed')
+})
+
 
 /// This part renders the landing page
 
 app.get('/', (req, res) => {
 	res.render("index")
-})
+});
 
 app.post('/login', (req, res) => {
 	if(req.body.username.length === 0) {
@@ -94,12 +105,47 @@ app.post('/register', (req, res) => {
 	})
 })
 
+/// This part creates the logout
 
-//// This prt renders the profile
+app.get('/logout', (req, res) => {
+	req.session.destroy(function(error) {
+		if(error) {
+			throw error;
+		}
+		res.redirect('/?message=' + encodeURIComponent("Successfully logged out."));
+	})
+});
+
+
+//// This part renders the profile
 app.get('/profile', (req, res) => {
-	res.render("profile", {
-      input: req.session.user.username
-    })
+	Promise.all([
+		user.findOne({
+			where: {
+				id: req.session.user.id
+			}
+		}),
+		post.findAll({ include:[user]})
+	]).then((result) => {
+		result[0].getPosts().then((blogs) => {
+			res.render("profile", {
+      			username: req.session.user.username,
+      			blogpost: blogs,
+      			allposts: result[1]
+    		})
+		})
+	})
+})
+
+
+/// This part posts new blog items
+app.post('/submitpost', (req, res) => {
+	post.create({
+		blogpost: req.body.post,
+		userId: req.session.user.id
+	}).then(function () {
+		res.redirect('/profile')
+	})
 })
 
 

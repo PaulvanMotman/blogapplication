@@ -4,9 +4,23 @@ html(lang='en')
 		meta(charset='UTF-8')
 		title MY APP
 	body
-		h1 Hello #{input}
-		form(action='/makepost', method='POST')
+		h1 Hello #{username}
+		form(action='/submitpost', method='POST')
 			input(type='text', placeholder='Type your post here...', name='post')
 			button(type='submit') Submit
 		br
-		a(href="http://localhost:3000/") HOME
+		a(href="http://localhost:3000/logout") Logout and return home
+		br
+		ul(style='float: left')
+			if blogpost
+				each post in blogpost
+					li=username + " says:"
+					li=post.blogpost
+					br
+		ul(style='float: left')
+			if allposts
+				each post in allposts
+					li=post.user.username + " says:"
+					li=post.blogpost
+					br
+		
