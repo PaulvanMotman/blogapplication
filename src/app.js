@@ -42,8 +42,19 @@ var post = sequelize.define('post', {
 	blogpost: Sequelize.STRING
 });
 
+var comment = sequelize.define('comment', {
+	commentpost: Sequelize.STRING
+});
+
 user.hasMany(post);
 post.belongsTo(user);
+
+post.hasMany(comment);
+comment.belongsTo(post);
+
+user.hasMany(comment);
+comment.belongsTo(user);
+
 
 sequelize.sync().then(()=>{
 	console.log('sync completed')
@@ -95,7 +106,7 @@ app.get('/register', (req, res) => {
 /// This part stores the data into the database
 
 app.post('/register', (req, res) => {
-  	sequelize.sync().then(function () {
+	sequelize.sync().then(function () {
 		user.create({
 			username: req.body.username,
 			password: req.body.password
@@ -125,31 +136,62 @@ app.get('/profile', (req, res) => {
 				id: req.session.user.id
 			}
 		}),
-		post.findAll({ include:[user]})
+		post.findAll({ include:[{model: user}, {model: comment, include: [user]}]})
 	]).then((result) => {
+		console.log(result[1])
 		result[0].getPosts().then((blogs) => {
 			res.render("profile", {
-      			username: req.session.user.username,
-      			blogpost: blogs,
-      			allposts: result[1]
-    		})
+				username: req.session.user.username,
+				blogpost: blogs,
+				allposts: result[1]
+			})
 		})
 	})
 })
 
-
-/// This part posts new blog items
+/// this part submits the post to the database
 app.post('/submitpost', (req, res) => {
-	post.create({
-		blogpost: req.body.post,
-		userId: req.session.user.id
-	}).then(function () {
+	user.findOne({
+		where: {
+			id: req.session.user.id
+		}
+	}).then(function (theuser) {
+		theuser.createPost({
+			blogpost: req.body.post
+		}).then(function () {
+			res.redirect('/profile')
+		})
+	})
+})
+
+/// this part submits the comment to the database
+
+app.post('/submitcomment', (req, res) => {
+	Promise.all([
+        comment.create({
+            commentpost: req.body.comment
+        }),
+        user.findOne({
+            where: {
+                id: req.session.user.id
+            }
+        }),
+        post.findOne({
+            where: {
+                id: req.body.id
+            }
+        })
+	]).then(function(allofthem){
+		console.log(allofthem[2])
+		allofthem[0].setUser(allofthem[1])
+		allofthem[0].setPost(allofthem[2])
+	}).then(function(){
 		res.redirect('/profile')
 	})
 })
 
 
-
+/// This part tells the app to listen to a server
 app.listen(3000, function() {
-    console.log('listening on 3000')
+	console.log('listening on 3000')
 })

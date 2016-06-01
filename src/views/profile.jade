@@ -16,11 +16,22 @@ html(lang='en')
 				each post in blogpost
 					li=username + " says:"
 					li=post.blogpost
+					form(action='/submitcomment', method='POST')
+						input(type='text', name='id', value="#{post.id}", hidden)
+						input(type='text', placeholder='Type your comment here...', name='comment')
+						button(type='submit') Submit
 					br
 		ul(style='float: left')
 			if allposts
 				each post in allposts
 					li=post.user.username + " says:"
 					li=post.blogpost
+					each comment in post.comments
+						li=comment.user.username + " says: " + comment.commentpost
+
+					form(action='/submitcomment', method='POST')
+						input(type='text', name='id', value="#{post.id}", hidden)
+						input(type='text', placeholder='Type your comment here...', name='comment')
+						button(type='submit') Submit
 					br
 		
