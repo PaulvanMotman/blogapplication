@@ -3,6 +3,8 @@ html(lang='en')
 	head
 		meta(charset='UTF-8')
 		title MY APP
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css')
+		link(rel='stylesheet', href='css/custom.css')
 	body
 		h1 AWESOME BLOGAPPLICATION APP
 		form(action='/login', method='POST')
@@ -11,3 +13,4 @@ html(lang='en')
 			button(type='submit') LOG IN
 		br
 		a(href="http://localhost:3000/register") New user registration
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js')

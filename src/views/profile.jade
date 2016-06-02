@@ -3,6 +3,9 @@ html(lang='en')
 	head
 		meta(charset='UTF-8')
 		title MY APP
+		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css')
+		link(rel='stylesheet', href='css/custom.css')
+
 	body
 		h1 Hello #{username}
 		form(action='/submitpost', method='POST')
@@ -34,4 +37,5 @@ html(lang='en')
 						input(type='text', placeholder='Type your comment here...', name='comment')
 						button(type='submit') Submit
 					br
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js')
 		

@@ -46,6 +46,8 @@ var comment = sequelize.define('comment', {
 	commentpost: Sequelize.STRING
 });
 
+
+/// Declaring the relationships between tables
 user.hasMany(post);
 post.belongsTo(user);
 
@@ -56,6 +58,7 @@ user.hasMany(comment);
 comment.belongsTo(user);
 
 
+/// Syncing with the database
 sequelize.sync().then(()=>{
 	console.log('sync completed')
 })
@@ -67,6 +70,8 @@ app.get('/', (req, res) => {
 	res.render("index")
 });
 
+
+/// This part logs the user in
 app.post('/login', (req, res) => {
 	if(req.body.username.length === 0) {
 		res.redirect('/?message=' + encodeURIComponent("Please fill out your email address."));
@@ -106,13 +111,11 @@ app.get('/register', (req, res) => {
 /// This part stores the data into the database
 
 app.post('/register', (req, res) => {
-	sequelize.sync().then(function () {
-		user.create({
-			username: req.body.username,
-			password: req.body.password
-		}).then(function () {
-			res.redirect('/')
-		})
+	user.create({
+		username: req.body.username,
+		password: req.body.password
+	}).then(function () {
+		res.redirect('/')
 	})
 })
 
@@ -138,7 +141,6 @@ app.get('/profile', (req, res) => {
 		}),
 		post.findAll({ include:[{model: user}, {model: comment, include: [user]}]})
 	]).then((result) => {
-		console.log(result[1])
 		result[0].getPosts().then((blogs) => {
 			res.render("profile", {
 				username: req.session.user.username,
