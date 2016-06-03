@@ -2,18 +2,21 @@
 
 Steps to undertake:
 x create a landingpage       (/)       
-- create a register-form     (/register)
+x create a register-form     (/register)
+x store the user data into the database
 x create a login-form
+x connect the login form to the database
 
 
-- create a page per user     (/profile)
-- create a log-out button
-- on the page a post form
-- a ajax list of their posts inside a clickable div
-- an ajax list of overyones posts inside clickable divs
+x create a page per user     (/profile)
+x create a log-out button
+x on the page a post form
+x a list of the (currently logged-in) users posts 
+x a list of overyones posts 
 
 
-- a (pop-up) page where you can view the post, and post comments    (/individualpost)
+x a form through which you can post comments  (/profile)
+x a list of comments per post
 
 
 Tables:
@@ -26,7 +29,7 @@ password
 Posts:
 UserID     <--RELATED TO
 PostID
-Message-content
+blogpost
 
 Comments:
 UserID       <--RELATED TO

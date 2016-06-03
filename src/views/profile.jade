@@ -7,35 +7,57 @@ html(lang='en')
 		link(rel='stylesheet', href='css/custom.css')
 
 	body
-		h1 Hello #{username}
-		form(action='/submitpost', method='POST')
-			input(type='text', placeholder='Type your post here...', name='post')
-			button(type='submit') Submit
-		br
-		a(href="http://localhost:3000/logout") Logout and return home
-		br
-		ul(style='float: left')
-			if blogpost
-				each post in blogpost
-					li=username + " says:"
-					li=post.blogpost
-					form(action='/submitcomment', method='POST')
-						input(type='text', name='id', value="#{post.id}", hidden)
-						input(type='text', placeholder='Type your comment here...', name='comment')
-						button(type='submit') Submit
-					br
-		ul(style='float: left')
-			if allposts
-				each post in allposts
-					li=post.user.username + " says:"
-					li=post.blogpost
-					each comment in post.comments
-						li=comment.user.username + " says: " + comment.commentpost
-
-					form(action='/submitcomment', method='POST')
-						input(type='text', name='id', value="#{post.id}", hidden)
-						input(type='text', placeholder='Type your comment here...', name='comment')
-						button(type='submit') Submit
-					br
+		.navbar-fixed
+			nav
+				.nav-wrapper
+					a.brand-logo(href='/profile') Hello #{username}
+					ul.right.hide-on-med-and-down
+						li
+							a(href="http://localhost:3000/logout") Logout and return home
+		#specialcontainer.container
+			.main
+				#form.row.z-depth-1
+					.col.l12
+						form(action='/submitpost', method='POST')
+							input(type='text', placeholder='Type your post here...', name='post')
+							button(type='submit') Post
+				.row
+					#ownposts.col.l4.z-depth-1
+						h5 Your posts
+						ul
+							if blogpost
+								each post in blogpost
+									li.poststyle.boldandbig=username + ":" 
+									li.poststyle=post.blogpost
+									br
+									li.commentsection Comment section
+									each comment in post.comments
+										li.commentstyle.boldandbig=comment.user.username + ":"
+										li.commentstyle=comment.commentpost
+									form(action='/submitcomment', method='POST')
+										input(type='text', name='id', value="#{post.id}", hidden)
+										input(type='text', placeholder='Type your comment here...', name='comment')
+										button(type='submit') Comment
+									br
+					#allposts.col.l7.z-depth-1
+						h5 All posts
+						ul
+							if allposts
+								each post in allposts
+									li.poststyle.boldandbig=post.user.username + ":"
+									li.poststyle=post.blogpost
+									br
+									li.commentsection Comment section
+									each comment in post.comments
+										li.commentstyle.boldandbig=comment.user.username + ":"
+										li.commentstyle=comment.commentpost
+									form(action='/submitcomment', method='POST')
+										input(type='text', name='id', value="#{post.id}", hidden)
+										input(type='text', placeholder='Type your comment here...', name='comment')
+										button(type='submit') Comment
+									br
+		.footer-copyright
+			.container
+				| © 2014 Copyright Paul van Motman
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js')
 		

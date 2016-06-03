@@ -1,6 +1,75 @@
-#myid a {
-  position: relative; }
-#myid div {
+.navbar-fixed {
+  margin-bottom: 20px; }
+
+#weirdmain {
+  margin-bottom: 50px; }
+
+.nav-wrapper {
+  background-color: #000000; }
+
+.container {
+  width: 100%; }
+
+#specialcontainer {
+  width: 90%; }
+  #specialcontainer .main {
+    margin-bottom: 80px; }
+
+#form {
+  padding-bottom: 5px; }
+
+#allposts.col.l7 {
+  float: right;
+  margin-right: 20px;
+  word-wrap: break-word; }
+  #allposts.col.l7 .col.l12 {
+    min-height: 200px;
+    min-width: 200px; }
+  #allposts.col.l7 ul {
+    word-wrap: break-word;
+    text-align: justify;
+    text-justify: inter-word; }
+
+.container .row #ownposts {
+  float: left;
+  margin-left: 20px;
+  word-wrap: break-all; }
+
+.commentstyle {
+  padding-left: 30px; }
+
+.row .col.l4 ul {
+  word-wrap: break-word;
+  text-align: justify;
+  text-justify: inter-word; }
+
+.commentsection {
+  font-style: italic; }
+
+.boldandbig {
+  font-size: 1.1em;
+  font-weight: bold; }
+
+.footer-copyright {
+  clear: both;
+  border: 1px groove #aaaaaa;
+  background: black;
+  color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: normal;
+  margin: 0;
+  position: fixed;
+  bottom: 0px;
+  width: 100%; }
+
+.navbar-fixed nav {
   background-color: black; }
+  .navbar-fixed nav .nav-wrapper {
+    padding-left: 15px;
+    padding-right: 15px;
+    background-color: black; }
 
 /*# sourceMappingURL=custom.css.map */

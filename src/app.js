@@ -39,11 +39,11 @@ var user = sequelize.define('user', {
 });
 
 var post = sequelize.define('post', {
-	blogpost: Sequelize.STRING
+	blogpost: Sequelize.TEXT
 });
 
 var comment = sequelize.define('comment', {
-	commentpost: Sequelize.STRING
+	commentpost: Sequelize.TEXT
 });
 
 
@@ -59,7 +59,7 @@ comment.belongsTo(user);
 
 
 /// Syncing with the database
-sequelize.sync().then(()=>{
+sequelize.sync({force: false}).then(()=>{
 	console.log('sync completed')
 })
 
@@ -141,7 +141,7 @@ app.get('/profile', (req, res) => {
 		}),
 		post.findAll({ include:[{model: user}, {model: comment, include: [user]}]})
 	]).then((result) => {
-		result[0].getPosts().then((blogs) => {
+		result[0].getPosts({ include:[{model: user}, {model: comment, include: [user]}]}).then((blogs) => {
 			res.render("profile", {
 				username: req.session.user.username,
 				blogpost: blogs,

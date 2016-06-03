@@ -6,11 +6,23 @@ html(lang='en')
 		link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/css/materialize.min.css')
 		link(rel='stylesheet', href='css/custom.css')
 	body
-		h1 REGISTER HERE
-		form(action='/register', method='POST')
-			input(type='text', placeholder='username', name='username')
-			input(type='text', placeholder='password', name='password')
-			button(type='submit') REGISTER
-		br
-		a(href="http://localhost:3000/") HOME
+		.navbar-fixed
+			nav
+				.nav-wrapper
+					a.brand-logo(href='/') AWESOME BLOGAPPLICATION APP
+					ul.right.hide-on-med-and-down
+						li.active
+							a(href="http://localhost:3000/register") Register
+						li
+							a(href="http://localhost:3000") Log in
+		#specialcontainer.container
+			#weirdmain.main
+				h1 REGISTER
+				form(action='/register', method='POST')
+					input(type='text', placeholder='username', name='username')
+					input(type='text', placeholder='password', name='password')
+					button(type='submit') REGISTER
+		.footer-copyright
+			.container
+				| © 2014 Copyright Paul van Motman
 	script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.6/js/materialize.min.js')
