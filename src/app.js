@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser= require('body-parser')
 const pg = require('pg')
 const app = express();
+const bcrypt = require('bcrypt')
 
 var Sequelize = require('sequelize');
 var session = require('express-session');
@@ -24,7 +25,7 @@ app.set('view engine', 'jade');
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('./resources/'));
 
-/// Declaring the session stuff??
+/// Setting up session
 app.use(session({
 	secret: 'oh wow very secret much security',
 	resave: true,
@@ -32,7 +33,7 @@ app.use(session({
 }));
 
 
-/// Declaring the tables
+/// Declaring the tables of the database
 var user = sequelize.define('user', {
 	username: Sequelize.STRING,
 	password: Sequelize.STRING
@@ -58,7 +59,7 @@ user.hasMany(comment);
 comment.belongsTo(user);
 
 
-/// Syncing with the database
+/// Storing stuff in the database (it initualises it) 
 sequelize.sync({force: false}).then(()=>{
 	console.log('sync completed')
 })
@@ -88,12 +89,14 @@ app.post('/login', (req, res) => {
 			username: req.body.username
 		}
 	}).then(function (user) {
-		if (user !== null && req.body.password === user.password) {
-			req.session.user = user;
-			res.redirect('/profile');
-		} else {
-			res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
-		}
+		bcrypt.compare(req.body.password, user.password, function (err, response) {
+			if (user !== null && response == true) {
+				req.session.user = user;
+				res.redirect('/profile');
+			} else {
+				res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
+			}
+		})
 	}, function (error) {
 		res.redirect('/?message=' + encodeURIComponent("Invalid email or password."));
 	});
@@ -110,13 +113,22 @@ app.get('/register', (req, res) => {
 
 /// This part stores the data into the database
 
+
+
+
 app.post('/register', (req, res) => {
-	user.create({
-		username: req.body.username,
-		password: req.body.password
-	}).then(function () {
-		res.redirect('/')
+	bcrypt.hash(req.body.password, 9, function(err, hash) {
+		if (err) {
+			return err
+		}
+		else {
+			user.create({
+				username: req.body.username,
+				password: hash
+			})
+		}
 	})
+	res.redirect('/')
 })
 
 /// This part creates the logout
