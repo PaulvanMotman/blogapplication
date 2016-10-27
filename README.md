@@ -1,38 +1,12 @@
-# blogapplication
+# Blogapplication
 
-Steps to undertake:
-x create a landingpage       (/)       
-x create a register-form     (/register)
-x store the user data into the database
-x create a login-form
-x connect the login form to the database
+- An app I made during the Full Stack Web Development course by New York Code + Design Academy at BSSA, Amsterdam.
+- First full-stack app build.
+- Build on Node.js, created view with pug and stored data using postgres withg sequelize.
+- App stores users, blogs and comments and gives the possibility to add blogs and comments.
+- Relational models.
+- Database insfranstructure and routes still in one file, app.js.
 
-
-x create a page per user     (/profile)
-x create a log-out button
-x on the page a post form
-x a list of the (currently logged-in) users posts 
-x a list of overyones posts 
-
-
-x a form through which you can post comments  (/profile)
-x a list of comments per post
-
-
-Tables:
-
-Users: 
-userID
-username
-password
-
-Posts:
-UserID     <--RELATED TO
-PostID
-blogpost
-
-Comments:
-UserID       <--RELATED TO
-PostID        <--RELATED TO
-CommentID
-Comment-content
+# Usage
+- Adjust sequelize connection.
+- Run node src/app.js
