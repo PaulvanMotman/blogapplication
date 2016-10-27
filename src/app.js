@@ -10,7 +10,7 @@ var Sequelize = require('sequelize');
 var session = require('express-session');
 
 /// Conecting to the blogapplication database
-var sequelize = new Sequelize('blogapplication', 'Paul', 'postgres', {
+var sequelize = new Sequelize('blogapplication', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
 	host: 'localhost',
 	dialect: 'postgres',
 	define: {
